@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Numerics;
 using System.Runtime.InteropServices.Marshalling;
 using System.Security.Cryptography;
 
@@ -8,7 +9,7 @@ namespace Szobeli_Gyak
     {
         static void Main()
         {
-            _5();
+            _10();
         }
 
         private static void _1()
@@ -181,6 +182,156 @@ namespace Szobeli_Gyak
             }
 
             if(!isOnlyOne) Console.WriteLine("\nNem volt ilyen dobás.");
+        }
+
+        private static void _6()
+        {
+            int area = 0;
+
+            int db = Convert.ToInt32(Console.ReadLine());
+
+            for (int i = 1; i < db; i++)
+            {
+                int side = Convert.ToInt32(Console.ReadLine());
+                area += (side * side);
+            }
+
+            Console.WriteLine(area);
+        }
+
+        private static void _7()
+        {
+            int[] bills = { 5, 10, 20, 50, 100 };
+
+            int input = Convert.ToInt32(Console.ReadLine());
+
+            int[] output = { 0, 0, 0, 0, 0 };
+
+            for (int i = bills.Length - 1; i >= 0; i--)
+            {
+                int currentBill = bills[i];
+
+                int divide = input / currentBill;
+
+                if (divide == 0) continue;
+
+                input -= divide * currentBill;
+                output[i] += divide;
+
+                if (input == 0) break;
+            }
+
+            for (int i = 0; i < output.Length; i++)
+            {
+                Console.Write(bills[i] + ": " + output[i] + "\n");
+            }
+        }
+
+        private static void _8()
+        {
+            Random rand = new Random();
+
+            int[] numbers = new int[30];
+            int[] fiveRandoms = new int[5];
+
+            int[] hits = { 0, 0, 0, 0, 0, 0 };
+
+            Console.WriteLine("Amiket feladtak: ");
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                numbers[i] = rand.Next(1, 91);
+                if(i % 5 == 0) Console.WriteLine();
+                Console.Write(numbers[i] + " ");
+            }
+
+            Console.WriteLine("\n\nTényleges lottószámok: ");
+
+            for (int i = 0; i < fiveRandoms.Length; i++)
+            {
+                fiveRandoms[i] = rand.Next(1, 91);
+                Console.Write(fiveRandoms[i] + " ");
+            }
+
+            List<int[]> split = numbers.Chunk(5).ToList();
+
+            for(int k = 0; k < split.Count; k++)
+            {
+                int[] arr = split[k];
+
+                for(int i = 0; i < arr.Length; i++)
+                {
+                    int current = arr[i];
+
+                    if(fiveRandoms.Contains(current)) hits[k]++;
+                }
+            }
+
+            Console.WriteLine("\n\nA találatok: ");
+
+            foreach (int n in hits)
+            {
+                Console.Write(n + ", ");
+            }
+        }
+
+        private static void _9()
+        {
+            Random rand = new Random();
+
+            int[] S = new int[50];
+
+            int F = 10;
+
+            Console.WriteLine("Pontszámok: ");
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                S[i] = rand.Next(1, 101);
+                if(i % 10 == 0) Console.WriteLine();
+                Console.Write(S[i] + " ");
+            }
+
+            // buborékrendezés csökkenőbe
+            for(int i = S.Length - 2; i >= 0; i--)
+            {
+                for(int k = S.Length - 1; k >= 1; k--)
+                {
+                    int current = S[k];
+                    int next = S[i];
+
+                    if(current > next)
+                    {
+                        S[k] = next;
+                        S[i] = current;
+                    }
+                }
+            }
+
+            Console.WriteLine("\n\nFelvettük: ");
+
+            for (int i = 0; i < F; i++)
+            {
+                Console.Write(S[i] + " ");
+            }
+        }
+
+        private static void _10()
+        {
+            int n = 17;
+            int total = 0;
+
+            Random rand = new Random();
+
+            for(int i = 0; i < n; i++)
+            {
+                int current = rand.Next(50, 151);
+                Console.WriteLine((i + 1) + ". palánta: " + current + "dkg-ot termett.");
+
+                total += current;
+            }
+
+            Console.WriteLine("Összesen: " + total + "dkg vagy " + ((double)total / (double)100) + "kg.");
         }
     }
 }
